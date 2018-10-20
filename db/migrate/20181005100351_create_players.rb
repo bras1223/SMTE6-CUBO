@@ -1,13 +1,11 @@
 class CreatePlayers < ActiveRecord::Migration[5.2]
   def change
     create_table :players do |t|
-      t.text :name
-      t.text :gender
+      t.string :name
+      t.string :gender
       t.boolean :isHost
-      t.text :location
-      t.number :score
-
-      has_and_belongs_to_many :games
+      t.string :location
+      t.integer :score
 
       t.timestamps
     end
