@@ -1,6 +1,6 @@
 # README
 
-The backend project for SMTE6-Fortnite (codename)
+The backend project for CUBO
 
 * Ruby: 2.3
 * Rails: 5
