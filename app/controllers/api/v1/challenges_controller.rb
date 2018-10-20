@@ -1,41 +1,51 @@
 module Api
   module V1
     class ChallengesController < ApplicationController
-      before_action :set_game, only: [:show, :update, :destroy, :start]
+      before_action :set_game
+      before_action :set_game_challenge, only: [:show, :update, :destroy]
 
-      # GET /challenges
+      # GET /games/:game_id/challenges
       def index
-        @games = Game.order('created_at DESC')
-        render json: {status: 'SUCCESS', message: 'loaded games', data:@games}, status: :ok
+        @challenges = Game.challenges.order('created_at DESC')
+        render json: {status: 'SUCCESS', message: 'loaded games', data:@challenges}, status: :ok
       end
 
-      # GET /challenges/:game_id
+      # GET /games/:game_id/challenges/:id
       def show
-        json_response(@game)
+        json_response(@item)
       end
 
-      # GET /games/:game_id/players
-      def show
-        @players = Game.players.order('created_at DESC')
-        json_response(@game)
-      end
-
-      # POST /challenges
+      # POST /games/:game_id/challenges
       def create
-        @game = Game.create!(game_params)
+        @game.challenges.create!(item_params)
         json_response(@game, :created)
       end
 
-      private
+      # PUT /games/:game_id/challenges/:id
+      def update
+        @challenge.update(item_params)
+        head :no_content
+      end
 
-      def game_params
-        params.permit(:duration, :center, :startRadius)
+      # DELETE /games/:game_id/challenges/:id
+      def destroy
+        @challenge.destroy
+        head :no_content
+      end
+
+
+      private
+      def challenge_params
+        params.permit(:duration, :timeleft)
       end
 
       def set_game
         @game = Game.find(params[:game_id])
       end
 
+      def set_game_challenge
+        @challenge = @game.challenges.find_by!(id: params[:id]) if @challenge
+      end
     end
   end
 end;
