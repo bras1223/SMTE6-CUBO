@@ -1,7 +1,7 @@
 module Api
   module V1
     class GamesController < ApplicationController
-      before_action :set_game, only: [:show, :update, :destroy, :start]
+      before_action :set_game, only: [:show, :update, :destroy, :start, :end]
 
       # GET /games
       def index
@@ -36,6 +36,12 @@ module Api
       # PUT /games/:game_id/start
       def start
         @game.start
+        json_response(@game, :updated)
+      end
+
+      # PUT /games/:game_id/end
+      def end
+        @game.end
         json_response(@game, :updated)
       end
 

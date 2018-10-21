@@ -8,5 +8,10 @@ class Game < ApplicationRecord
 
   def start_game
     @startTime = DateTime.now
+    @active = true
+  end
+
+  def end_game
+    @active = false
   end
 end

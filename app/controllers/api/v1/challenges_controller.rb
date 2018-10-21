@@ -7,7 +7,7 @@ module Api
       # GET /games/:game_id/challenges
       def index
         @challenges = Game.challenges.order('created_at DESC')
-        render json: {status: 'SUCCESS', message: 'loaded games', data:@challenges}, status: :ok
+        render json: {status: 'SUCCESS', message: 'loaded challenge', data:@challenges}, status: :ok
       end
 
       # GET /games/:game_id/challenges/:id
