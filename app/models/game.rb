@@ -1,8 +1,17 @@
 class Game < ApplicationRecord
-  has_and_belongs_to_many :players
-  has_many :challenges
+  has_many :players, dependent: :destroy
+  has_many :challenges, dependent: :destroy
+
+  def initialize()
+    @joinCode = RandomWord.nouns.next
+  end
 
   def start_game
+    @startTime = DateTime.now
+    @active = true
+  end
 
+  def end_game
+    @active = false
   end
 end
