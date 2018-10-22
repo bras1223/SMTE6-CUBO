@@ -4,4 +4,6 @@ Rails.application.routes.draw do
       resources :games
     end
   end
+
+  mount Apidoco::Engine, at: "/docs"
 end
