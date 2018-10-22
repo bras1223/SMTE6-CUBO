@@ -12,6 +12,9 @@
 
 ActiveRecord::Schema.define(version: 2018_10_09_111312) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "challenges", force: :cascade do |t|
     t.string "duration"
     t.integer "timeleft"
@@ -20,7 +23,9 @@ ActiveRecord::Schema.define(version: 2018_10_09_111312) do
   end
 
   create_table "games", force: :cascade do |t|
+    t.string "joinCode"
     t.datetime "startTime"
+    t.boolean "active"
     t.integer "duration"
     t.string "center"
     t.string "centerRadius"
@@ -31,8 +36,8 @@ ActiveRecord::Schema.define(version: 2018_10_09_111312) do
   end
 
   create_table "games_players", id: false, force: :cascade do |t|
-    t.integer "player_id", null: false
-    t.integer "game_id", null: false
+    t.bigint "player_id", null: false
+    t.bigint "game_id", null: false
   end
 
   create_table "players", force: :cascade do |t|
