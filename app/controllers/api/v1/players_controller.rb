@@ -44,7 +44,7 @@ module Api
       end
 
       def set_game
-        @game = Game.find(params[:game_id])
+        @game = Game.find_by(joinCode: params[:game_id]) || Game.find(params[:game_id])
       end
 
       def set_game_player

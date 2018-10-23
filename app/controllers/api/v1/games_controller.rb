@@ -11,7 +11,7 @@ module Api
         json_response(@games)
       end
 
-      # GET /games/:game_id
+      # GET /games/:id
       def show
         json_response(@game)
       end
