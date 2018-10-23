@@ -1,22 +1,18 @@
+# frozen_string_literal: true
+
 module Api
   module V1
     class GamesController < ApplicationController
-      before_action :set_game, only: [:show, :update, :destroy, :start, :end]
+      before_action :set_game, only: %i[show update destroy start end]
 
       # GET /games
       def index
         @games = Game.order('created_at DESC')
-        render json: {status: 'SUCCESS', message: 'loaded games', data:@games}, status: :ok
+        json_response(@games)
       end
 
       # GET /games/:game_id
       def show
-        json_response(@game)
-      end
-
-      # GET /games?code=:game_code
-      def show_code
-        @game = Game.find_by joinCode: params[:game_code]
         json_response(@game)
       end
 
@@ -26,20 +22,20 @@ module Api
         json_response(@game, :created)
       end
 
-      # PUT /games/:game_id
+      # PUT /games/:id
       def update
         @game.update(update_game_params)
         head :no_content
         json_response(@game, :updated)
       end
 
-      # PUT /games/:game_id/start
+      # PUT /games/:id/start
       def start
         @game.start
         json_response(@game, :updated)
       end
 
-      # PUT /games/:game_id/end
+      # PUT /games/:id/end
       def end
         @game.end
         json_response(@game, :updated)
@@ -52,9 +48,8 @@ module Api
       end
 
       def set_game
-        @game = Game.find(params[:game_id]) || Game.find_by(joinCode: params[:id])
+        @game = Game.find_by(joinCode: params[:id]) || Game.find(params[:id])
       end
-
     end
   end
-end;
+end

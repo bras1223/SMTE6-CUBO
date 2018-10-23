@@ -7,12 +7,12 @@ class Game < ApplicationRecord
     self.joinCode = generate_code(5)
   end
 
-  def start_game
+  def start
     self.startTime = DateTime.now
     self.active = true
   end
 
-  def end_game
+  def end
     self.active = false
   end
 
@@ -25,8 +25,6 @@ class Game < ApplicationRecord
   end
 
   def generate_code(number)
-    charset = Array('A'..'Z') + Array('a'..'z')
-    Array.new(number) { charset.sample }.join
+    SecureRandom.hex(number)
   end
-
 end
