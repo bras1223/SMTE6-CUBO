@@ -2,19 +2,26 @@ class Game < ApplicationRecord
   has_many :players, dependent: :destroy
   has_many :challenges, dependent: :destroy
 
-
   def initialize(args)
-    @joinCode = generate_code(5)
     super(args)
+    self.joinCode = generate_code(5)
   end
 
   def start_game
-    @startTime = DateTime.now
-    @active = true
+    self.startTime = DateTime.now
+    self.active = true
   end
 
   def end_game
-    @active = false
+    self.active = false
+  end
+
+  def reached_max_players
+    if players.size < playerCount
+      return false
+    else
+      return true
+    end
   end
 
   def generate_code(number)

@@ -4,6 +4,7 @@ class CreateGames < ActiveRecord::Migration[5.2]
       t.string :joinCode
       t.datetime :startTime
       t.boolean :active
+      t.integer :playerCount
       t.integer :duration
       t.string :center
       t.string :centerRadius

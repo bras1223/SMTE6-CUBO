@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_09_111312) do
+ActiveRecord::Schema.define(version: 2018_10_05_105332) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(version: 2018_10_09_111312) do
     t.string "joinCode"
     t.datetime "startTime"
     t.boolean "active"
+    t.integer "playerCount"
     t.integer "duration"
     t.string "center"
     t.string "centerRadius"
@@ -35,19 +36,17 @@ ActiveRecord::Schema.define(version: 2018_10_09_111312) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "games_players", id: false, force: :cascade do |t|
-    t.bigint "player_id", null: false
-    t.bigint "game_id", null: false
-  end
-
   create_table "players", force: :cascade do |t|
     t.string "name"
     t.string "gender"
     t.boolean "isHost"
     t.string "location"
     t.integer "score"
+    t.bigint "game_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["game_id"], name: "index_players_on_game_id"
   end
 
+  add_foreign_key "players", "games"
 end

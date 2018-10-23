@@ -1,12 +1,12 @@
 module Api
   module V1
-    class ChallengesController < ApplicationController
+    class PlayersController < ApplicationController
       before_action :set_game
-      before_action :set_game_challenge, only: [:show, :update, :destroy]
+      before_action :set_game_player, only: [:show, :update, :destroy]
 
       # GET /games/:game_id/players
       def index
-        @players = Game.players.order('created_at DESC')
+        @players = @game.players.order('created_at DESC')
         render json: {status: 'SUCCESS', message: 'loaded players', data:@players}, status: :ok
       end
 
@@ -17,13 +17,17 @@ module Api
 
       # POST /games/:game_id/players
       def create
-        @game.challenges.create!(item_params)
-        json_response(@game, :created)
+        if @game.reached_max_players
+          json_response({}, :forbidden)
+        else
+          @game.players.create!(player_params)
+          json_response(@game, :created)
+        end
       end
 
       # PUT /games/:game_id/players/:id
       def update
-        @challenge.update(item_params)
+        @player.update(player_params)
         head :no_content
       end
 
@@ -35,7 +39,7 @@ module Api
 
 
       private
-      def challenge_params
+      def player_params
         params.permit(:name, :gender, :isHost, :location, :score)
       end
 
@@ -43,7 +47,7 @@ module Api
         @game = Game.find(params[:game_id])
       end
 
-      def set_game_challenge
+      def set_game_player
         @player = @game.players.find_by!(id: params[:id]) if @game
       end
     end

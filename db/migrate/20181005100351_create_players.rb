@@ -7,6 +7,7 @@ class CreatePlayers < ActiveRecord::Migration[5.2]
       t.string :location
       t.integer :score
 
+      t.references :game, foreign_key: true
       t.timestamps
     end
   end

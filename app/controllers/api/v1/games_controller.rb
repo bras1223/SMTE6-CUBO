@@ -14,9 +14,9 @@ module Api
         json_response(@game)
       end
 
-      # GET /games/:game_id/players
-      def show
-        @players = Game.players.order('created_at DESC')
+      # GET /games?code=:game_code
+      def show_code
+        @game = Game.find_by joinCode: params[:game_code]
         json_response(@game)
       end
 
@@ -48,11 +48,11 @@ module Api
       private
 
       def game_params
-        params.permit(:duration, :center, :startRadius)
+        params.permit(:duration, :playerCount, :center, :startRadius)
       end
 
       def set_game
-        @game = Game.find(params[:game_id])
+        @game = Game.find(params[:game_id]) || Game.find_by(joinCode: params[:id])
       end
 
     end
